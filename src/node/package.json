@@ -1,0 +1,19 @@
+{
+  "name": "not-bacon",
+  "version": "1.0.0",
+  "description": "Not Bacon",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^1.26.2",
+    "express": "^4.15.4",
+    "node-rest-client": "^3.1.0"
+  }
+}
