@@ -1,16 +1,28 @@
 'use strict';
 
 const express = require('express');
+var path    = require("path");
 const config = require('config');
 var Client = require('node-rest-client').Client;
 
-const PORT = 8080;
+const PORT = 80;
 const HOST = '0.0.0.0';
 
 // App
 const app = express();
-app.get('/isbacon', (req, res) => {
+
+app.get('/',function(req,res){
+    res.sendFile(path.join(__dirname+'/index.html'));
+    //__dirname : It will resolve to your project folder.
+  });
+
+app.get('/api/bacon', (req, res) => {
     console.log("Request recieved....");
+
+    var url = require('url');
+    var url_parts = url.parse(req.url, true);
+    var query = url_parts.query;
+    console.log(query);
 
     var client = new Client();
     
@@ -19,7 +31,7 @@ app.get('/isbacon', (req, res) => {
     var IsBacon = false;
     
     var args = {
-        data: { url: "https://upload.wikimedia.org/wikipedia/commons/3/31/Made20bacon.png" },
+        data: { url: query.url },
         headers: { "Content-Type": "application/json", "Prediction-Key" : predictionKey }
     };
     
@@ -34,8 +46,8 @@ app.get('/isbacon', (req, res) => {
                    if(data.Predictions[i].Probability > 0.80){IsBacon = true;} 
                 }
             }
-
-            res.send("Is Bacon? " + IsBacon); 
+            console.log("Is Bacon: " + IsBacon)
+            res.send({hasBacon : IsBacon}); 
     });   
 });
 
